@@ -45,8 +45,9 @@ struct song_node * remove_node (struct song_node * pointer, char artist[100], ch
   struct song_node * prev = malloc(sizeof(struct song_node));
   prev = pointer;
 
-  while (){
+  while (pointer){
 
+    pointer = pointer -> next;
     
     
   }
