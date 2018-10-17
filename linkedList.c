@@ -80,7 +80,7 @@ struct song_node * ran_node (struct song_node * pointer){
 struct song_node * remove_node (struct song_node * pointer, char artist[100], char name[100] ){
 
   struct song_node * prev = malloc(sizeof(struct song_node));
-  prev = pointer;
+  prev = NULL;
 
   while (pointer){
 
