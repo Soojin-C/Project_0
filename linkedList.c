@@ -7,11 +7,17 @@ void print_list (struct song_node * pointer){
 
   while (pointer){
 
-    printf("%s by %s\n", pointer -> name, pointer -> artist);
+    print_node (pointer);
     pointer = pointer -> next;
     
   }
   
+}
+
+void print_node(struct song_node * pointer){
+
+  printf("%s by %s\n", pointer -> name, pointer -> artist);
+
 }
 
 struct song_node * insert_front (struct song_node * pointer, char * song_name, char * artist_name){
@@ -61,37 +67,90 @@ struct song_node * insert_inorder (struct song_node * pointer, char * song_name,
 
 }
 
-/*
 
 struct song_node * find_node (struct song_node * pointer, char * song_name, char * artist_name){
 
+  struct song_node * temp = malloc(sizeof(struct song_node));
+  temp = pointer;
+  while (temp){
 
+    if (strcmp (artist_name, temp->artist) == 0){
 
-}
+      if (strcmp (song_name, temp->name) == 0){
 
-struct song_node * find_first (struct song_node *, char artist[100]){
+	return temp;
 
-}
+      }
+      
+    }
+    temp = temp -> next;
 
-struct song_node * ran_node (struct song_node * pointer){
-
-}
-
-struct song_node * remove_node (struct song_node * pointer, char artist[100], char name[100] ){
-
-  struct song_node * prev = malloc(sizeof(struct song_node));
-  prev = NULL;
-
-  while (pointer){
-
-    pointer = pointer -> next;
-    
-    
   }
-  
+  return temp;
+
+}
+
+
+struct song_node * find_first (struct song_node * pointer , char * artist_name){
+
+  while(pointer){
+
+    if (strcmp(artist_name, pointer -> artist) == 0){
+
+      return pointer;
+      
+    }
+  }
+  return pointer;
+
+}
+/*
+struct song_node * find_artist (struct song_node * pointer, char * artist_name){
+
+  struct song_node * temp = malloc (sizeof(struct song_node));
+  temp 
+
+}
+
+struct song_node * rand_node (struct song_node * pointer){
 
 }
 */
+
+struct song_node * remove_node (struct song_node * pointer, char * artist_name, char * song_name ){
+
+  struct song_node * prev = malloc(sizeof(struct song_node));
+  struct song_node * orig = malloc(sizeof(struct song_node));
+
+  orig = pointer;
+  prev = NULL;
+  int cmp_name;
+  int cmp_artist;
+
+  while (pointer){
+  
+    cmp_name = (strcmp(song_name, pointer -> name));
+    cmp_artist = (strcmp(artist_name, pointer -> artist));
+
+    if (cmp_name == 0  && cmp_artist == 0){
+      if(prev){
+	prev -> next = pointer-> next;
+      }
+      else{
+	prev = pointer -> next;
+	orig = prev;
+      }
+
+      free(pointer);
+      return orig;
+
+    }
+
+    pointer = pointer -> next;
+  }
+  return pointer;
+  
+}
 
 struct song_node * free_list (struct song_node * pointer){
 
@@ -134,7 +193,7 @@ int main(){
   main_pointer = insert_front(main_pointer, song4, artist4);
   
   printf("adding 3, 4:\n\n");
-  print_list(main_pointer);
+  //print_list(main_pointer);
 
   main_pointer = insert_inorder(main_pointer, song2, artist2);
   main_pointer = insert_inorder(main_pointer, song1, artist1);
@@ -142,11 +201,18 @@ int main(){
   main_pointer = insert_inorder(main_pointer, song3, artist3);
   
   printf("adding 2, 1:\n\n");
-  print_list(main_pointer);
+  //print_list(main_pointer);
 
-  main_pointer = free_list(main_pointer);
+  //main_pointer = free_list(main_pointer);
+  //print_list(main_pointer);
+
+  main_pointer = remove_node(main_pointer, song2, artist2);
+  main_pointer = remove_node(main_pointer, song1, artist1);
+  main_pointer = remove_node(main_pointer, song5, artist5);
+  main_pointer = remove_node(main_pointer, song3, artist3);
+  main_pointer = remove_node(main_pointer, song4, artist4);
+
   print_list(main_pointer);
-  
   return 0;
 
 }
