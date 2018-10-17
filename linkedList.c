@@ -8,7 +8,7 @@ void print_list (struct song_node * pointer){
   while (pointer){
 
     printf("%s by %s\n", pointer -> name, pointer -> artist);
-    pointer = (pointer -> next);
+    pointer = pointer -> next;
     
   }
   
@@ -17,29 +17,55 @@ void print_list (struct song_node * pointer){
 struct song_node * insert_front (struct song_node * pointer, char * song_name, char * artist_name){
 
   struct song_node * temp = malloc (sizeof(struct song_node));
-  strcpy(song_name, temp -> name);
-  //strcpy(artist_name, temp -> artist);
+  strcpy(temp -> name, song_name);
+  strcpy(temp -> artist, artist_name);
   temp -> next = pointer;
 
   return temp;
 
 }
-/*
+
 struct song_node * insert_inorder (struct song_node * pointer, char * song_name, char * artist_name){
 
-  struct song_node * temp = malloc (sizeof(struct song_node));
+  struct song_node * prev = malloc (sizeof(struct song_node));
+  struct song_node * orig = malloc (sizeof(struct song_node));
+  prev = NULL;
+  orig = pointer;
+  
+  int cmp_name;
+  int cmp_artist;
 
   while (pointer){
+    
+    cmp_name = strcmp(pointer->name, song_name);
+    cmp_artist= strcmp(pointer->artist, artist_name);
 
-  
+    if ((cmp_artist > 0) || (cmp_artist == 0 && cmp_name > 0)){
+
+      pointer = insert_front(pointer, song_name, artist_name);
+      if (prev){
+	prev -> next = pointer;
+	return orig;
+      }
+      return pointer;   
+    }
+
+    prev = pointer;
+    pointer = pointer -> next;
 
   }
 
+  pointer = insert_front(pointer, song_name, artist_name);
+  prev -> next = pointer;
+  return orig;
+
 }
 
+/*
+
+struct song_node * find_node (struct song_node * pointer, char * song_name, char * artist_name){
 
 
-struct song_node * find_node (struct song_node * pointer, char name[100], char artist[100]){
 
 }
 
@@ -65,38 +91,60 @@ struct song_node * remove_node (struct song_node * pointer, char artist[100], ch
   
 
 }
+*/
 
 struct song_node * free_list (struct song_node * pointer){
 
   struct song_node * prev = malloc(sizeof(struct song_node));
-  prev = pointer;
-  pointer = pointer -> next;
+  prev = NULL;
 
   while (pointer){
 
-    free(prev);
     prev = pointer;
     pointer = pointer -> next;
+    free(prev);
 
   }
-
-  free(prev);
   return pointer;
 
 }
 
-*/
+
 
 int main(){
 
-  char * song1 = "abc";
-  char * song2 = calloc(3, sizeof(char));
-  song2 = "b";
-  char * artist1 = "be";
-  char * artist2 = "ba";
+  char * song1 = "perfect";
+  char * song2 = "delicate";
+  char * song3 = "sad song";
+  char * song4 = "look what you made me do";
+  char * song5 = "take me to church";
+  char * song6 = "fireflies";
+  
+  char * artist1 = "ed sheeran";
+  char * artist2 = "taylor swift";
+  char * artist3 = "we the kings";
+  char * artist4 = "taylor swift";
+  char * artist5 = "hozier";
+  char * artist6 = "owl city";
 
   struct song_node * main_pointer = malloc(sizeof(struct song_node));
-  main_pointer = insert_front(main_pointer, song2, artist1);
+  main_pointer = NULL;
+
+  //main_pointer = insert_front(main_pointer, song3, artist3);
+  main_pointer = insert_front(main_pointer, song4, artist4);
+  
+  printf("adding 3, 4:\n\n");
+  print_list(main_pointer);
+
+  main_pointer = insert_inorder(main_pointer, song2, artist2);
+  main_pointer = insert_inorder(main_pointer, song1, artist1);
+  main_pointer = insert_inorder(main_pointer, song5, artist5);
+  main_pointer = insert_inorder(main_pointer, song3, artist3);
+  
+  printf("adding 2, 1:\n\n");
+  print_list(main_pointer);
+
+  main_pointer = free_list(main_pointer);
   print_list(main_pointer);
   
   return 0;
