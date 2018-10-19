@@ -9,6 +9,8 @@ void print_list (struct song_node * pointer);
 
 void print_node (struct song_node * pointer);
 
+void print_artist_songs(struct song_node * pointer);
+
 struct song_node * insert_front (struct song_node * pointer, char * song_name, char * artist_name);
 
 struct song_node * insert_inorder (struct song_node * pointer, char * song_name, char * artist_name);
@@ -16,6 +18,8 @@ struct song_node * insert_inorder (struct song_node * pointer, char * song_name,
 struct song_node * find_node (struct song_node * pointer, char * song_name, char * artist_name);
 
 struct song_node * find_first (struct song_node *, char * artist_name);
+
+int struct_length(struct song_node * pointer);
 
 struct song_node * rand_node (struct song_node * pointer);
 

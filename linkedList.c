@@ -4,17 +4,19 @@
 #include <time.h>
 #include "linkedList.h"
 
+
 void print_list (struct song_node * pointer){
 
   int counter = 0;
   while (pointer){
 
-    printf("[%d]", counter);
+    printf("[%d] ", counter);
     print_node (pointer);
     pointer = pointer -> next;
     counter += 1;
     
   }
+  print_node(pointer);
   
 }
 
@@ -24,10 +26,36 @@ void print_node(struct song_node * pointer){
     printf("%s by %s\n", pointer -> name, pointer -> artist);
   }
 
+  else{
+    printf("NULL\n");
+  }
+
+}
+
+void print_artist_songs(struct song_node * pointer){
+
+  char * orig_artist;
+  int counter = 0;
+
+  while (pointer){
+
+    orig_artist = pointer -> artist;
+    if (pointer -> artist == orig_artist){
+
+      printf("[%d] ", counter);
+      print_node(pointer);
+      counter ++;
+
+    }
+    pointer = pointer -> next;
+    
+  }
+
 }
 
 struct song_node * insert_front (struct song_node * pointer, char * song_name, char * artist_name){
 
+  printf("...inserting %s by %s\n", song_name, artist_name);
   struct song_node * temp = malloc (sizeof(struct song_node));
   strcpy(temp -> name, song_name);
   strcpy(temp -> artist, artist_name);
@@ -68,13 +96,25 @@ struct song_node * insert_inorder (struct song_node * pointer, char * song_name,
   }
 
   pointer = insert_front(pointer, song_name, artist_name);
-  prev -> next = pointer;
+  if (prev){
+
+    prev -> next = pointer;
+    
+  }
+
+  else{
+
+    orig = pointer;
+
+  }
   return orig;
 
 }
 
 
 struct song_node * find_node (struct song_node * pointer, char * song_name, char * artist_name){
+
+  printf("...finding %s by %s\n", song_name, artist_name);
 
   struct song_node * temp = malloc(sizeof(struct song_node));
   temp = pointer;
@@ -99,6 +139,7 @@ struct song_node * find_node (struct song_node * pointer, char * song_name, char
 
 struct song_node * find_first (struct song_node * pointer , char * artist_name){
 
+  printf("...finding by %s\n", artist_name);
   while(pointer){
 
     if (strcmp(artist_name, pointer -> artist) == 0){
@@ -112,15 +153,6 @@ struct song_node * find_first (struct song_node * pointer , char * artist_name){
   return pointer;
 
 }
-/*
-struct song_node * find_artist (struct song_node * pointer, char * artist_name){
-
-  struct song_node * temp = malloc (sizeof(struct song_node));
-  temp 
-
-}
-
-*/
 
 int struct_length(struct song_node * pointer){
 
@@ -137,8 +169,14 @@ int struct_length(struct song_node * pointer){
 
 struct song_node * rand_node (struct song_node * pointer){
 
-  srand( time( NULL ) );
-  int random = rand();
+  int counter = rand() % 20;
+  int random;
+  while (counter){
+
+    random = rand();
+    counter --;
+
+  }
   random = random % (struct_length(pointer));
 
   while (random){
@@ -153,6 +191,8 @@ struct song_node * rand_node (struct song_node * pointer){
 
 
 struct song_node * remove_node (struct song_node * pointer, char * song_name, char * artist_name ){
+
+  printf("...removing %s by %s\n", song_name, artist_name);
 
   struct song_node * prev = malloc(sizeof(struct song_node));
   struct song_node * orig = malloc(sizeof(struct song_node));
@@ -183,7 +223,8 @@ struct song_node * remove_node (struct song_node * pointer, char * song_name, ch
     prev = pointer;
     pointer = pointer -> next;
   }
-  return pointer;
+  printf("song not found\n");
+  return orig;
   
 }
 

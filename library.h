@@ -2,16 +2,20 @@ struct song_node * table[27];
 
 void print_library();
 
-void print_letter();
+void print_artist(char * artist_name);
 
-void find_song();
+void print_letter(char * letter);
 
-void find_artist();
+int letter_position(char * string);
 
-void remove_song();
+void add_song(char * song_name, char * artist_name);
+
+struct song_node * find_song(char * song_name, char * artist_name);
+
+struct song_node * find_artist(char * artist_name);
+
+void remove_song(char * song_name, char * artist_name);
 
 void clear_library();
-
-void print_artist();
 
 void shuffle();
