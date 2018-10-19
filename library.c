@@ -110,21 +110,12 @@ void shuffle(){
     curr_list = table[index];
     if (curr_list){
 
-      if (all_songs){
-
 	while (curr_list){
 
 	  all_songs = insert_inorder(all_songs, curr_list -> name, curr_list -> artist);
 	  curr_list = curr_list -> next;
 	  
 	}
-
-      }
-      else{
-
-	all_songs = curr_list;
-
-      }
 
     }
     index ++;

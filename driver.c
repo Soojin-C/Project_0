@@ -115,7 +115,7 @@ int main(){
   printf("=============================================\n");
   printf("TESTING print_letter:\n");
   char * letter = "t";
-  char * letter2 = "s";
+  char * letter2 = "e";
   print_letter(letter);
   print_letter(letter2);
 
